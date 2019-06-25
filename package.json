@@ -2,17 +2,21 @@
   "name": "koa-20190624",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
-    "lodash": "^4.17.11",
     "koa-router": "^7.4.0",
+    "lodash": "^4.17.11",
+    "require-directory": "^2.1.1",
     "validator": "^11.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./app.js"
   },
   "repository": {
     "type": "git",
