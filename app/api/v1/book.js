@@ -1,30 +1,40 @@
-const Router = require('koa-router')
+const Router = require("koa-router");
+const winston = require ('winston');
 const router = new Router({
-  prefix: '/v1'
-})
-const { Validator } = require('./../../validators/validator')
+  prefix: "/v1"
+});
+const { Validator } = require("../../../core/validator");
 
-router.get('/book', async (ctx) => {
-  const { id } = ctx.request.body
+router.get("/book", async ctx => {
+  const { id, type } = ctx.request.body;
+  const { LoginType } = global.config;
 
-  await new Validator([
+  console.log(LoginType.isUserType(200));
+
+  winston.log('info', 'Hello distributed log files!');
+  winston.info('Hello again distributed logs');
+
+  new Validator([
     {
       field: id,
-      isOptional: false,    // 是否必选
-      rules: [
-        {  type: 'isInt', param: { min: 124 } }
-      ],
+      isOptional: false, // 是否必选
+      rules: [{ type: "isInt", param: { min: 120 } }],
       custom() {
-        // 自定义规则，必须retur布尔
-        return true
+        // 回调，必须return布尔
+        return true;
+      }
+    },
+    {
+      field: type,
+      custom() {
+        return false;
       }
     }
-  ])
-
+  ]);
   ctx.body = {
-    key: 'book',
+    key: "book",
     id: id
-  }
-})
+  };
+});
 
 module.exports = router;

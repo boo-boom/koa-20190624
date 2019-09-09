@@ -4,7 +4,7 @@ const catchError = async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-    // console.log(error)
+    const isDevelopment = global.config.isDevelopment
     const isHttpException = error instanceof HttpException
     if (isHttpException) {
       // 已知异常
@@ -15,6 +15,7 @@ const catchError = async (ctx, next) => {
         requestUrl: `${ctx.method} ${ctx.path}`
       }
     } else {
+      if (isDevelopment) throw error;
       // 未知错误
       ctx.status = 500
       ctx.body = {

@@ -1,5 +1,5 @@
 const validator = require('validator')
-const { ParameterException } = require('../../core/httpException')
+const { ParameterException } = require('./httpException')
 
 class Validator {
   constructor(rules) {
@@ -17,11 +17,13 @@ class Validator {
     })
   }
   static exception(v) {
-    v.rules.forEach(iv => {
-      if (!validator[iv.type](v.field + '', iv.param)) {
-        throw new ParameterException()
-      }
-    })
+    if (v.type) {
+      v.rules.forEach(iv => {
+        if (!validator[iv.type](v.field + '', iv.param)) {
+          throw new ParameterException()
+        }
+      })
+    }
     if (v.custom && !v.custom()) {
       throw new ParameterException()
     }
